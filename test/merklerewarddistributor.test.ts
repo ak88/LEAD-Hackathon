@@ -38,6 +38,16 @@ describe("MerkleRewardsDistributor", function () {
             nft.relayRewards(0, root);
         });
 
+        it("Can call same reward index", async ()=>{
+            const { Contract: nft } = await loadFixture(deployContracts);
+            const leaves = [toUtf8Bytes('a'), toUtf8Bytes('b'), toUtf8Bytes('c')].map(x => ethers.utils.keccak256(x));
+            const tree = new MerkleTree(leaves, ethers.utils.keccak256);
+            const root = tree.getRoot().toString('hex');
+
+            nft.relayRewards(0, root);
+            nft.relayRewards(0, root);
+        });
+
         it("Can claim relayed reward", async ()=>{
             const { Contract: nft, owner, otherAccount } = await loadFixture(deployContracts);
 
@@ -91,6 +101,25 @@ describe("MerkleRewardsDistributor", function () {
             expect(balanceAfter).to.be.eq( balanceBefore.add(totalRewardAmount));
         });
 
+        it("Cannot claim reward twice", async ()=>{
+            const { Contract: nft, owner, otherAccount } = await loadFixture(deployContracts);
+
+            const oneEtherInWei = ethers.utils.parseEther("1");
+            
+            const leafNode = ethers.utils.solidityPack(["address","uint8","uint256"], [otherAccount.address, 0, oneEtherInWei]);
+
+            const leaves = [leafNode, '0x01', '0x02', '0x03'].map(v => utils.keccak256(v))
+            const tree = new MerkleTree(leaves, utils.keccak256, { sort: true })
+            const root = tree.getHexRoot()
+            const proof = tree.getHexProof(leaves[0])
+
+            nft.relayRewards(0, root, {value: oneEtherInWei});
+            
+            await nft.claimReward(otherAccount.address, [0], [oneEtherInWei], [proof]);
+            
+            await expect(nft.claimReward(otherAccount.address, [0], [oneEtherInWei], [proof])).to.be.revertedWith("Already claimed");
+        });
+
         it("Cannot claim invalid reward amount", async ()=>{
             const { Contract: nft, owner, otherAccount } = await loadFixture(deployContracts);
 
@@ -125,5 +154,48 @@ describe("MerkleRewardsDistributor", function () {
             await expect(nft.claimReward(owner.address, [0], [oneEtherInWei], [proof])).to.be.revertedWith("Invalid proof");
         });
 
+    });
+
+    describe("isClaimed", ()=>{
+        it("Returns false if reward not claimed", async ()=>{
+            const { Contract: nft, owner, otherAccount } = await loadFixture(deployContracts);
+
+            const oneEtherInWei = ethers.utils.parseEther("1");
+            
+            const leafNode = ethers.utils.solidityPack(["address","uint8","uint256"], [otherAccount.address, 0, oneEtherInWei]);
+
+            const leaves = [leafNode, '0x01', '0x02', '0x03'].map(v => utils.keccak256(v))
+            const tree = new MerkleTree(leaves, utils.keccak256, { sort: true })
+            const root = tree.getHexRoot()
+
+            nft.relayRewards(0, root, {value: oneEtherInWei});
+
+            expect(await nft.isClaimed(0, otherAccount.address)).to.be.false;
+        });
+
+        it("Returns false if no reward relayed", async ()=>{
+            const { Contract: nft, owner, otherAccount } = await loadFixture(deployContracts);
+
+            expect(await nft.isClaimed(0, otherAccount.address)).to.be.false;
+        });
+
+        it("Returns true if reward is claimed", async ()=>{
+            const { Contract: nft, owner, otherAccount } = await loadFixture(deployContracts);
+
+            const oneEtherInWei = ethers.utils.parseEther("1");
+            
+            const leafNode = ethers.utils.solidityPack(["address","uint8","uint256"], [otherAccount.address, 0, oneEtherInWei]);
+
+            const leaves = [leafNode, '0x01', '0x02', '0x03'].map(v => utils.keccak256(v))
+            const tree = new MerkleTree(leaves, utils.keccak256, { sort: true })
+            const root = tree.getHexRoot()
+            const proof = tree.getHexProof(leaves[0])
+
+            nft.relayRewards(0, root, {value: oneEtherInWei});
+
+            await nft.claimReward(otherAccount.address, [0], [oneEtherInWei], [proof]);
+
+            expect(await nft.isClaimed(0, otherAccount.address)).to.be.true;
+        });
     });
 });
