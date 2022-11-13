@@ -14,6 +14,7 @@ contract MerkleRewardsDistributor is ContractStorage, Ownable{
     uint8 public immutable network;
     
     event RewardsClaimed(address indexed claimer, uint256[] rewardIndex, uint256[] amountETH);
+    event NewRewardIndex(uint256 indexed rewardIndex);
 
     constructor(uint8 networkNumber){
         network = networkNumber;
@@ -28,6 +29,7 @@ contract MerkleRewardsDistributor is ContractStorage, Ownable{
         bytes32 key = keccak256(abi.encodePacked('rewards.merkle.root', _rewardIndex));
         require(getBytes32(key) == bytes32(0));
         setBytes32(key, _root);
+        emit NewRewardIndex(_rewardIndex);
     }
 
     // can call this method to claim rewards for one or more reward intervals and specify an amount of RPL to stake at the same time

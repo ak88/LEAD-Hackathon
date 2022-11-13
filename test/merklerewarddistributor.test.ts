@@ -33,19 +33,19 @@ describe("MerkleRewardsDistributor", function () {
             const { Contract: nft } = await loadFixture(deployContracts);
             const leaves = [toUtf8Bytes('a'), toUtf8Bytes('b'), toUtf8Bytes('c')].map(x => ethers.utils.keccak256(x));
             const tree = new MerkleTree(leaves, ethers.utils.keccak256);
-            const root = tree.getRoot().toString('hex');
+            const root = ethers.utils.hexlify(tree.getRoot());
 
-            nft.relayRewards(0, root);
+            await nft.relayRewards(0, root);
         });
 
-        it("Can call same reward index", async ()=>{
+        it("Cannot call same reward index", async ()=>{
             const { Contract: nft } = await loadFixture(deployContracts);
             const leaves = [toUtf8Bytes('a'), toUtf8Bytes('b'), toUtf8Bytes('c')].map(x => ethers.utils.keccak256(x));
             const tree = new MerkleTree(leaves, ethers.utils.keccak256);
-            const root = tree.getRoot().toString('hex');
+            const root = ethers.utils.hexlify(tree.getRoot());
 
-            nft.relayRewards(0, root);
-            nft.relayRewards(0, root);
+            await nft.relayRewards(0, root);
+            await expect(nft.relayRewards(0, root)).to.be.reverted;
         });
 
         it("Can claim relayed reward", async ()=>{
