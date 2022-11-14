@@ -1,0 +1,97 @@
+import { Flex, useColorModeValue, Heading, Link as ChakraLink, Box, HStack, IconButton, useColorMode, Button, Show, Menu, MenuButton, MenuList, MenuItem, Hide, MenuDivider, MenuGroup } from "@chakra-ui/react";
+import NextLink from "next/link";
+import { useEffect, useState } from "react";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+
+const NAV_LINKS = [
+    {
+        name: "Crowdsale",
+        url: "/collection"
+    },
+    {
+        name: "Adminstration",
+        url: "/admin"
+    },
+    {
+        name: "Dashboard",
+        url: "/dashboard"
+    }
+]
+
+export default function AppBar() {
+    const backgroundColor = useColorModeValue("brand.400", "gray.700");
+    const colorModeChangerButtonColor = useColorModeValue("gray", "brand");
+    const ColorModeChangerIcon = useColorModeValue(MoonIcon, SunIcon);
+    const { toggleColorMode } = useColorMode();
+    const [mounted, setMounted] = useState<boolean>(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, [])
+
+    return (
+        <div>
+        <Flex background={backgroundColor} width="full" position="sticky" top={0} left={0} as="header" minHeight="14" shadow="lg" paddingY="4" paddingX="8" alignItems="center" zIndex={99999}>
+
+            {/* App logo */}
+            <NextLink passHref href="/" legacyBehavior>
+                <ChakraLink>
+                    <Heading>LEAD Market</Heading>
+                </ChakraLink>
+            </NextLink>
+
+            {/* Nav links and menu */}
+            {mounted &&
+                <Box marginLeft="auto">
+                    <HStack spacing="10" height="full" as="nav">
+
+                        {/* Show navlinks for wider screens */}
+                        <Show above="md">
+                            {NAV_LINKS.map((navLink, index) => (
+                                <NextLink key={index} passHref href={navLink.url}>
+                                    <ChakraLink color="gray.50" fontSize="lg" fontWeight={700}>{navLink.name}</ChakraLink>
+                                </NextLink>
+                            ))}
+                            <IconButton aria-label="Switch theme" colorScheme={colorModeChangerButtonColor} icon={<ColorModeChangerIcon />} isRound variant="outline" onClick={toggleColorMode} />
+                                <ConnectButton />
+                        </Show>
+
+                        {/* Show menu for smaller screens */}
+                        {/* <Hide above="md">
+                            <Menu>
+                                <MenuButton as={IconButton} aria-label='Navigation menu' icon={<MenuIcon />} isRound />
+                                <MenuList>
+                                    <MenuGroup title="Wallet">
+                                        <MenuItem aria-label="Connect wallet" onClick={handleConnect} display="flex" alignItems="center" gap="2" color="brand.500">
+                                            {isConnected ?
+                                                <>Connected <WalletOpenIcon size="20" /></> :
+                                                <>Connect <WalletClosedIcon size="20" /></>
+                                            }
+                                        </MenuItem>
+                                    </MenuGroup>
+                                    <MenuDivider />
+                                    <MenuGroup title="Links">
+                                        {NAV_LINKS.map((navLink, index) => (
+                                            <MenuItem key={index}>
+                                                <NextLink passHref href={navLink.url}>
+                                                    <ChakraLink width="full">{navLink.name}</ChakraLink>
+                                                </NextLink>
+                                            </MenuItem>
+                                        ))}
+                                    </MenuGroup>
+                                    <MenuDivider />
+                                    <MenuGroup title="Settings">
+                                        <MenuItem aria-label="Switch theme" onClick={toggleColorMode} display="flex" alignItems="center" gap="2">Switch theme <ColorModeChangerIcon /></MenuItem>
+                                    </MenuGroup>
+                                </MenuList>
+                            </Menu>
+                        </Hide> */}
+                    </HStack>
+                </Box>
+            }
+        </Flex>
+    </div>
+
+    )
+}
