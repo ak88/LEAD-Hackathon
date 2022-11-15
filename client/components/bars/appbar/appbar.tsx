@@ -4,11 +4,8 @@ import { useEffect, useState } from "react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
+
 const NAV_LINKS = [
-    {
-        name: "Crowdsale",
-        url: "/collection"
-    },
     {
         name: "Adminstration",
         url: "/admin"
@@ -54,7 +51,9 @@ export default function AppBar() {
                                 </NextLink>
                             ))}
                             <IconButton aria-label="Switch theme" colorScheme={colorModeChangerButtonColor} icon={<ColorModeChangerIcon />} isRound variant="outline" onClick={toggleColorMode} />
-                                <ConnectButton />
+                                <div >
+                                  <ConnectButton />
+                                </div>
                         </Show>
 
                         {/* Show menu for smaller screens */}
