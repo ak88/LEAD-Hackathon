@@ -21,14 +21,7 @@ const args = {
             } 
 const zdk = new ZDK(args) 
 
-// enum sortKey {
-//   None
-// }
-
-// enum sortDirection {
-//   Asc,
-//   Dsc
-// }
+const address = "0xE169c2ED585e62B1d32615BF2591093A629549b6";
 
 // const collectionsArgs = {
 //   where: {collectionAddresses: [
@@ -43,7 +36,7 @@ const zdk = new ZDK(args)
 
 
 export const getStaticProps = async () => {
-  const res = await zdk.collections(collectionsArgs)
+  const res = await zdk.collection({address})
 
   return {
     props: {
