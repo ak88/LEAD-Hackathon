@@ -30,63 +30,68 @@ export default function DashboardAppPage() {
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+          Hello,
         </Typography>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
+           <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="New NFTs Added" total={70} color="info" icon={'ant-design:apple-filled'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+            <AppWidgetSummary title="Weekly fNFT Sales" total={15000} icon={'ant-design:android-filled'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+            <AppWidgetSummary title="Your fNFTs Amount" total={7} color="warning" icon={'ant-design:windows-filled'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+            <AppWidgetSummary title="My Investments" total={2.2} color="error" icon={'ant-design:bug-filled'} />
           </Grid>
+          {/* change to eth */}
 
           <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
               title="My Investments"
               subheader="(+5%) from last quarter"
               chartLabels={[
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
+                '01/01/2022',
+                '02/01/2022',
+                '03/01/2022',
+                '04/01/2022',
+                '05/01/2022',
+                '06/01/2022',
+                '07/01/2022',
+                '08/01/2022',
+                '09/01/2022',
+                '10/01/2022',
+                '11/01/2022',
               ]}
               chartData={[
                 {
-                  name: 'Team A',
-                  type: 'column',
-                  fill: 'solid',
-                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
-                },
-                {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                },
-                {
-                  name: 'Team C',
+                  name: 'Real Estate',
                   type: 'line',
                   fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
+                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 50, 52],
+                  color: theme.palette.primary.main,
+                },
+                {
+                  name: 'Traditional Art',
+                  type: 'line',
+                  fill: 'solid',
+                  data: [44, 55, 41, 67, 45, 43, 47, 41, 56, 53, 54],
+                  color: theme.palette.error.main
+                },
+                {
+                  name: 'Automobiles',
+                  type: 'line',
+                  fill: 'solid',
+                  data: [30, 25, 36, 30, 45, 35, 33, 33, 30, 28, 20],
+                  color: theme.palette.success.main
                 },
               ]}
+              
             />
           </Grid>
 
@@ -102,25 +107,6 @@ export default function DashboardAppPage() {
                 theme.palette.primary.main,
                 theme.palette.error.main,
                 theme.palette.success.main,
-              ]}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={8}>
-            <AppConversionRates
-              title="Conversion Rates"
-              subheader="(+43%) than last year"
-              chartData={[
-                { label: 'Italy', value: 400 },
-                { label: 'Japan', value: 430 },
-                { label: 'China', value: 448 },
-                { label: 'Canada', value: 470 },
-                { label: 'France', value: 540 },
-                { label: 'Germany', value: 580 },
-                { label: 'South Korea', value: 690 },
-                { label: 'Netherlands', value: 1100 },
-                { label: 'United States', value: 1200 },
-                { label: 'United Kingdom', value: 1380 },
               ]}
             />
           </Grid>
