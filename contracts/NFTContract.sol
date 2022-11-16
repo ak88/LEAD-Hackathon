@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MIT
-
-pragma solidity >=0.8.17 <0.9.0;
+pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract NFTContract is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
+contract LeadNFT is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
     
     string baseUri = "https://github.com/";
     constructor() ERC721("Farmland Skane", "FLS") {}
