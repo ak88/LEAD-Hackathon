@@ -34,18 +34,19 @@ export default function DashboardAppPage() {
         <Grid container spacing={3}>
            <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="New NFTs Added" total={70} color="info" icon={'ant-design:apple-filled'} />
-            <AppWidgetSummary title="New NFTs Added" total={70} color="success" icon={'logos:ethereum'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="Weekly fNFT Sales" total={15000} icon={'ant-design:android-filled'} />
-            <AppWidgetSummary title="Weekly fNFT Sales" total={15000} icon={'icon-park:seven-key'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
+            <AppWidgetSummary title="New NFTs Added" total={70} color="success" icon={'logos:ethereum'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
+<AppWidgetSummary title="Weekly fNFT Sales" total={15000} icon={'icon-park:seven-key'} />
+
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
