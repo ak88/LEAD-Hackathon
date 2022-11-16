@@ -8,13 +8,11 @@ import Iconify from '../components/iconify';
 // sections
 import {
   AppNewsUpdate,
-  AppOrderTimeline,
   AppCurrentVisits,
-  AppWebsiteVisits,
   AppTrafficBySite,
   AppWidgetSummary,
-  AppCurrentSubject,
-  AppConversionRates,
+  AppWebsiteVisits,
+  
 } from '../sections/@dashboard/app';
 
 // ----------------------------------------------------------------------
@@ -36,20 +34,19 @@ export default function DashboardAppPage() {
         <Grid container spacing={3}>
            <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="New NFTs Added" total={70} color="info" icon={'ant-design:apple-filled'} />
+            <AppWidgetSummary title="New NFTs Added" total={70} color="success" icon={'logos:ethereum'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="Weekly fNFT Sales" total={15000} icon={'ant-design:android-filled'} />
+            <AppWidgetSummary title="Weekly fNFT Sales" total={15000} icon={'icon-park:seven-key'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Your fNFTs Amount" total={7} color="warning" icon={'ant-design:windows-filled'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="My Investments" total={2.2} color="error" icon={'ant-design:bug-filled'} />
           </Grid>
-          {/* change to eth */}
 
           <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
@@ -101,12 +98,10 @@ export default function DashboardAppPage() {
               chartData={[
                 { label: 'Real Estate', value: 27500 },
                 { label: 'Traditional Art', value: 3439 },
-                { label: 'Automobiles', value: 3439 },
               ]}
               chartColors={[
                 theme.palette.primary.main,
                 theme.palette.error.main,
-                theme.palette.success.main,
               ]}
             />
           </Grid>
@@ -116,7 +111,6 @@ export default function DashboardAppPage() {
               title="Updates"
               list={[...Array(5)].map((_, index) => ({
                 id: "giant",
-                title: "a",
                 description: "b",
                 image: `/assets/images/covers/cover_${index + 1}.jpg`,
                 postedAt: faker.date.recent(),
@@ -130,7 +124,6 @@ export default function DashboardAppPage() {
               list={[
                 {
                   name: 'Twitter',
-                  value: 303,
                   icon: <Iconify icon={'eva:twitter-fill'} color="#1C9CEA" width={32} />,
                 },
               ]}
