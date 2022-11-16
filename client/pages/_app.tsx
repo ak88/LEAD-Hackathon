@@ -16,6 +16,7 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import AppBar from '../components/bars/appbar';
 import { ChakraProvider } from '@chakra-ui/react'
+import { ThirdwebProvider } from '@thirdweb-dev/react';
 
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -39,12 +40,14 @@ const wagmiClient = createClient({
 })
 
 return (
-  <ChakraProvider theme={theme}>
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <AppBar />
-        <Component {...pageProps} />
-      </RainbowKitProvider>
-    </WagmiConfig>
-  </ChakraProvider>
+  <ThirdwebProvider>
+    <ChakraProvider theme={theme}>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains}>
+          <AppBar />
+          <Component {...pageProps} />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </ChakraProvider>
+  </ThirdwebProvider>
   );}

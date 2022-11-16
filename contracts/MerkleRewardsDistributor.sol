@@ -2,17 +2,19 @@
 pragma solidity 0.8.17;
 
 import "./ContractStorage.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "hardhat/console.sol";
 
+
 contract MerkleRewardsDistributor is ContractStorage, Ownable{
-    
+
     using SafeMath for uint;
     //Used to prevent replay attacks on other EVM chains
     uint8 public immutable network;
-    
+
     event RewardsClaimed(address indexed claimer, uint256[] rewardIndex, uint256[] amountETH);
     event NewRewardIndex(uint256 indexed rewardIndex);
 
