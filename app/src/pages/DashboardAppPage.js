@@ -15,10 +15,36 @@ import {
   
 } from '../sections/@dashboard/app';
 
+  const updatesList = [
+    {
+      id: "1",
+      description: "New Real Estate Collection Listed",
+    },
+     {
+      id: "2",
+      description: "Albany Crowdsale has ended",
+    },
+     {
+      id: "3",
+      description: "2023 Gensis Crowdsale is about to begin",
+    },
+     {
+      id: "4",
+      description: "lol",
+    },
+     {
+      id: "5",
+      description: "I ran out of Ideas",
+    },
+  ]
+
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
   const theme = useTheme();
+  console.log(faker.date.recent())
+    console.log(updatesList)
+
 
   return (
     <>
@@ -41,12 +67,11 @@ export default function DashboardAppPage() {
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New NFTs Added" total={70} color="success" icon={'logos:ethereum'} />
+            <AppWidgetSummary title="Your fNFTs" total={5} color="success" icon={'logos:ethereum'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-<AppWidgetSummary title="Weekly fNFT Sales" total={15000} icon={'icon-park:seven-key'} />
-
+            <AppWidgetSummary title="My Investments(eth)" total={2.20} icon={'icon-park:seven-key'} />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
@@ -99,10 +124,14 @@ export default function DashboardAppPage() {
               chartData={[
                 { label: 'Real Estate', value: 27500 },
                 { label: 'Traditional Art', value: 3439 },
+                { label: 'Automobiles', value: 3439 },
+
               ]}
               chartColors={[
                 theme.palette.primary.main,
                 theme.palette.error.main,
+                theme.palette.success.main
+
               ]}
             />
           </Grid>
@@ -110,9 +139,9 @@ export default function DashboardAppPage() {
           <Grid item xs={12} md={6} lg={8}>
             <AppNewsUpdate
               title="Updates"
-              list={[...Array(5)].map((_, index) => ({
-                id: "giant",
-                description: "b",
+              list={updatesList.map((update, index) => ({
+                id: update.id,
+                description: update.description,
                 image: `/assets/images/covers/cover_${index + 1}.jpg`,
                 postedAt: faker.date.recent(),
               }))}
