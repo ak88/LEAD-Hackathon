@@ -19,22 +19,17 @@ import {
     {
       id: "1",
       description: "New Real Estate Collection Listed",
+      image: `/assets/images/covers/cover_19.jpg`
     },
      {
       id: "2",
-      description: "Albany Crowdsale has ended",
+      description: "Sepolia Crowdsale has ended",
+      image: `/assets/images/covers/cover_22.jpg`
     },
      {
       id: "3",
-      description: "2023 Gensis Crowdsale is about to begin",
-    },
-     {
-      id: "4",
-      description: "lol",
-    },
-     {
-      id: "5",
-      description: "I ran out of Ideas",
+      description: "Genesis Crowdsale 2023 is about to begin",
+      image: `/assets/images/covers/cover_3.jpg`
     },
   ]
 
@@ -59,19 +54,19 @@ export default function DashboardAppPage() {
 
         <Grid container spacing={3}>
            <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New NFTs Added" total={70} color="info" icon={'ant-design:apple-filled'} />
+            <AppWidgetSummary title="New NFTs Added" total={70} color="info" icon={'logos:ethereum'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly fNFT Sales" total={15000} icon={'ant-design:android-filled'} />
+            <AppWidgetSummary title="Weekly fNFT Sales" total={15000} icon={'icon-park:seven-key'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Your fNFTs" total={5} color="success" icon={'logos:ethereum'} />
+            <AppWidgetSummary title="Your fNFTs" total={5} color="success" icon={'icon-park:maslow-pyramids'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="My Investments(eth)" total={2.20} icon={'icon-park:seven-key'} />
+            <AppWidgetSummary title="My Investments(eth)" total={2.20} icon={'logos:ethereum-color'} />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
@@ -93,6 +88,13 @@ export default function DashboardAppPage() {
               ]}
               chartData={[
                 {
+                  name: 'Automobiles',
+                  type: 'line',
+                  fill: 'solid',
+                  data: [30, 25, 36, 30, 45, 35, 33, 33, 30, 28, 20],
+                  color: theme.palette.success.main
+                },
+                {
                   name: 'Real Estate',
                   type: 'line',
                   fill: 'solid',
@@ -106,13 +108,6 @@ export default function DashboardAppPage() {
                   data: [44, 55, 41, 67, 45, 43, 47, 41, 56, 53, 54],
                   color: theme.palette.error.main
                 },
-                {
-                  name: 'Automobiles',
-                  type: 'line',
-                  fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 33, 33, 30, 28, 20],
-                  color: theme.palette.success.main
-                },
               ]}
               
             />
@@ -122,16 +117,15 @@ export default function DashboardAppPage() {
             <AppCurrentVisits
               title="Portfolio Allocation"
               chartData={[
+                { label: 'Automobiles', value: 3439 },
                 { label: 'Real Estate', value: 27500 },
                 { label: 'Traditional Art', value: 3439 },
-                { label: 'Automobiles', value: 3439 },
 
               ]}
               chartColors={[
+                theme.palette.success.main,
                 theme.palette.primary.main,
                 theme.palette.error.main,
-                theme.palette.success.main
-
               ]}
             />
           </Grid>
@@ -142,7 +136,7 @@ export default function DashboardAppPage() {
               list={updatesList.map((update, index) => ({
                 id: update.id,
                 description: update.description,
-                image: `/assets/images/covers/cover_${index + 1}.jpg`,
+                image: update.image,
                 postedAt: faker.date.recent(),
               }))}
             />
@@ -155,7 +149,13 @@ export default function DashboardAppPage() {
                 {
                   name: 'Twitter',
                   icon: <Iconify icon={'eva:twitter-fill'} color="#1C9CEA" width={32} />,
+                  value: "3.03k"
                 },
+                {
+                  name: "Reddit",
+                  icon: <Iconify icon={'logos:reddit-icon'} color="#FF4500" width={32} />,
+                  value: "1.76k"
+                }
               ]}
             />
           </Grid>
