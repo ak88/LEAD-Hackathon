@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Web3 from 'web3';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Button, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
