@@ -26,6 +26,26 @@ const StyledAccount = styled('div')(({ theme }) => ({
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
   backgroundColor: alpha(theme.palette.grey[500], 0.12),
 }));
+// let connectToWalletText = 'Connect to wallet';
+
+// async function connect() {
+//   if (await isMetaMaskInstalled()) {
+//     connectToWalletText = 'Connected';
+//   } else {
+//     connectToWalletText = 'Please install meta meask plugin.';
+//   }
+// }
+
+// async function isMetaMaskInstalled() {
+//   if (typeof window.ethereum !== 'undefined') {
+//     console.log('MetaMask found, Great!');
+//     console.log('Connecting to MetaMask');
+//     const provider = window.ethereum.providers.find((provider) => provider.isMetaMask);
+//     await provider.request({ method: 'eth_requestAccounts' });
+//     return true;
+//   }
+//   return false;
+// }
 
 // ----------------------------------------------------------------------
 
@@ -53,55 +73,42 @@ export default function Nav({ openNav, onCloseNav }) {
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
       }}
     >
-      <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
-        <Logo />
-      </Box>
-
-      <Box sx={{ mb: 5, mx: 2.5 }}>
-        <Link underline="none">
-          <StyledAccount>
-            <Avatar src={account.photoURL} alt="photoURL" />
-
-            <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
-              </Typography>
-
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
-              </Typography>
-            </Box>
-          </StyledAccount>
-        </Link>
+      <Box sx={{ px: 3.5, py: 8, display: 'inline-flex' }}>
+        <Box
+          component="img"
+          src="/assets/LEAD.png"
+          sx={{ width: 100, position: 'absolute', mb: 10, mx: 2.5, top: 0 }}
+        />
+        {/* <Box sx={{ mb: 0, mx: 0.5 }}>
+          <Link underline="none">
+            <StyledAccount>
+              <Box sx={{ ml: 2 }}>
+                <Typography variant="subtitle1" sx={{ color: 'text.primary' }}>
+                  {account.displayName}
+                </Typography>
+              </Box>
+            </StyledAccount>
+          </Link>
+        </Box> */}
       </Box>
 
       <NavSection data={navConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
 
-      <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
+      {/* <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
         <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
           <Box
             component="img"
-            src="/assets/illustrations/illustration_avatar.png"
+            src="/assets/illustrations/MetaMask_Fox.svg.png"
             sx={{ width: 100, position: 'absolute', top: -50 }}
           />
 
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography gutterBottom variant="h6">
-              Get more?
-            </Typography>
-
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              From only $69
-            </Typography>
-          </Box>
-
-          <Button href="https://material-ui.com/store/items/minimal-dashboard/" target="_blank" variant="contained">
-            Upgrade to Pro
+          <Button onClick={connect} variant="contained">
+            {connectToWalletText}
           </Button>
         </Stack>
-      </Box>
+      </Box> */}
     </Scrollbar>
   );
 

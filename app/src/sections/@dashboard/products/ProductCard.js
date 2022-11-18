@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { sentenceCase } from 'change-case';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
-import { Box, Card, Link, Typography, Stack } from '@mui/material';
+import { Button, Box, Card, Link, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
@@ -26,17 +29,25 @@ ShopProductCard.propTypes = {
 
 export default function ShopProductCard({ product }) {
   const { name, cover, price, colors, status, priceSale } = product;
-
+  const [buttonDisabled, setDisabled] = useState(true);
+  const handleDisabled = (status) => {
+    if (status !== '') {
+      console.log('status');
+      console.log(status);
+      return false;
+    }
+    return true;
+  };
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
-        {status && (
+        {/* {status && (
           <Label
             variant="filled"
             color={(status === 'sale' && 'error') || 'info'}
             sx={{
               zIndex: 9,
-              top: 16,
+              top: 295,
               right: 16,
               position: 'absolute',
               textTransform: 'uppercase',
@@ -44,7 +55,22 @@ export default function ShopProductCard({ product }) {
           >
             {status}
           </Label>
-        )}
+        )} */}
+        <Button
+          disabled={status === 'Closed'}
+          to="/dashboard/user"
+          component={RouterLink}
+          size="small"
+          sx={{
+            zIndex: 9,
+            top: 291,
+            right: 16,
+            position: 'absolute',
+            textTransform: 'uppercase',
+          }}
+        >
+          {sentenceCase(status)}
+        </Button>
         <StyledProductImg alt={name} src={cover} />
       </Box>
 
@@ -66,10 +92,10 @@ export default function ShopProductCard({ product }) {
                 textDecoration: 'line-through',
               }}
             >
-              {priceSale && fCurrency(priceSale)}
+              {}
             </Typography>
             &nbsp;
-            {fCurrency(price)}
+            {price}
           </Typography>
         </Stack>
       </Stack>

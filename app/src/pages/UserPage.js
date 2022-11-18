@@ -31,14 +31,24 @@ import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
 
+import {
+  leadNftAddress,
+  leadNftAbi,
+  leadTokenAbi,
+  leadTokenAddress,
+  crowdSaleAbi,
+  crowdSaleAddress,
+} from '../constants';
+
 // ----------------------------------------------------------------------
+const { ethers } = require('ethers');
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
+  { id: 'Tower', label: 'Tower', alignRight: false },
+  { id: 'TokenId', label: 'TokenId', alignRight: false },
+  { id: 'rewards', label: 'Rewards', alignRight: false },
   { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'status', label: 'CrowdSale Status', alignRight: false },
   { id: '' },
 ];
 
@@ -68,7 +78,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.towerName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -82,9 +92,9 @@ export default function UserPage() {
 
   const [selected, setSelected] = useState([]);
 
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('towerName');
 
-  const [filterName, setFilterName] = useState('');
+  const [filtertowerName, setFiltertowerName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -104,18 +114,18 @@ export default function UserPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = USERLIST.map((n) => n.tokenId);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, towerName) => {
+    const selectedIndex = selected.indexOf(towerName);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, towerName);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -125,7 +135,47 @@ export default function UserPage() {
     }
     setSelected(newSelected);
   };
-
+  const listenForTransactionMine = async (txResponse, provider) => {
+    console.log('Mining with ');
+    console.log(txResponse.hash);
+    return new Promise((resolve, reject) => {
+      provider.once(txResponse.hash, (txReceipt) => {
+        console.log('Completed with confirmations');
+        console.log(txReceipt.confirmations);
+        resolve();
+      });
+    });
+  };
+  const openCrowdSale = async (tokenId) => {
+    if (typeof window.ethereum !== 'undefined') {
+      console.log('MetaMask Installed');
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const account = accounts[0];
+      console.log(account);
+      const leadToken = new ethers.Contract(leadTokenAddress, leadTokenAbi, signer);
+      const crowdSaleContract = new ethers.Contract(crowdSaleAddress, crowdSaleAbi, signer);
+      console.log('Crowdsale Address');
+      console.log(crowdSaleContract.address);
+      try {
+        console.log('Setting crowdsale as a minter.');
+        const txResponse = await leadToken.setMinter(crowdSaleContract.address);
+        await listenForTransactionMine(txResponse, provider);
+        console.log('Minter set successfully');
+        console.log(tokenId);
+      } catch (error) {
+        console.log('Error');
+        console.log(error);
+      }
+    }
+  };
+  const handleBuy = async (tokenId) => {
+    console.log('Buying');
+    const num = tokenId.match(/\d+/g);
+    console.log(num[0]);
+    await openCrowdSale(num[0]);
+  };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -135,16 +185,16 @@ export default function UserPage() {
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 
-  const handleFilterByName = (event) => {
+  const handleFilterBytowerName = (event) => {
     setPage(0);
-    setFilterName(event.target.value);
+    setFiltertowerName(event.target.value);
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filtertowerName);
 
-  const isNotFound = !filteredUsers.length && !!filterName;
+  const isNotFound = !filteredUsers.length && !!filtertowerName;
 
   return (
     <>
@@ -155,15 +205,16 @@ export default function UserPage() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+            All Crowdsales
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New User
-          </Button>
         </Stack>
 
         <Card>
-          <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+          <UserListToolbar
+            numSelected={selected.length}
+            filtertowerName={filtertowerName}
+            onFiltertowerName={handleFilterBytowerName}
+          />
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -179,27 +230,26 @@ export default function UserPage() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                    const selectedUser = selected.indexOf(name) !== -1;
-
+                    const { id, towerName, rewards, status, tokenId, avatarUrl, isVerified } = row;
+                    const selectedTower = selected.indexOf(towerName) !== -1;
                     return (
-                      <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                      <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedTower}>
                         <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox checked={selectedTower} onChange={(event) => handleClick(event, towerName)} />
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
+                            <Avatar alt={towerName} src={avatarUrl} />
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {towerName}
                             </Typography>
                           </Stack>
                         </TableCell>
 
-                        <TableCell align="left">{company}</TableCell>
+                        <TableCell align="left">{tokenId}</TableCell>
 
-                        <TableCell align="left">{role}</TableCell>
+                        <TableCell align="left">{rewards ? 'Yes' : 'No'}</TableCell>
 
                         <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
 
@@ -208,9 +258,14 @@ export default function UserPage() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
-                            <Iconify icon={'eva:more-vertical-fill'} />
-                          </IconButton>
+                          <Button
+                            onClick={() => {
+                              handleBuy(tokenId);
+                            }}
+                            disabled={status === 'Closed'}
+                          >
+                            Buy
+                          </Button>
                         </TableCell>
                       </TableRow>
                     );
@@ -237,7 +292,7 @@ export default function UserPage() {
 
                           <Typography variant="body2">
                             No results found for &nbsp;
-                            <strong>&quot;{filterName}&quot;</strong>.
+                            <strong>&quot;{filtertowerName}&quot;</strong>.
                             <br /> Try checking for typos or using complete words.
                           </Typography>
                         </Paper>
@@ -260,35 +315,6 @@ export default function UserPage() {
           />
         </Card>
       </Container>
-
-      <Popover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 1,
-            width: 140,
-            '& .MuiMenuItem-root': {
-              px: 1,
-              typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
-        }}
-      >
-        <MenuItem>
-          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
-
-        <MenuItem sx={{ color: 'error.main' }}>
-          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
-      </Popover>
     </>
   );
 }

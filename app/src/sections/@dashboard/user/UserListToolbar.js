@@ -39,6 +39,9 @@ UserListToolbar.propTypes = {
 };
 
 export default function UserListToolbar({ numSelected, filterName, onFilterName }) {
+  const handleClick = (name) => {
+    console.log(name);
+  };
   return (
     <StyledRoot
       sx={{
@@ -56,7 +59,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
         <StyledSearch
           value={filterName}
           onChange={onFilterName}
-          placeholder="Search user..."
+          placeholder="Search NFT..."
           startAdornment={
             <InputAdornment position="start">
               <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
@@ -67,7 +70,11 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              handleClick();
+            }}
+          >
             <Iconify icon="eva:trash-2-fill" />
           </IconButton>
         </Tooltip>

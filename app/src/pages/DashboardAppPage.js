@@ -12,34 +12,32 @@ import {
   AppTrafficBySite,
   AppWidgetSummary,
   AppWebsiteVisits,
-  
 } from '../sections/@dashboard/app';
 
-  const updatesList = [
-    {
-      id: "1",
-      description: "New Real Estate Collection Listed",
-      image: `/assets/images/covers/cover_19.jpg`
-    },
-     {
-      id: "2",
-      description: "Sepolia Crowdsale has ended",
-      image: `/assets/images/covers/cover_22.jpg`
-    },
-     {
-      id: "3",
-      description: "Genesis Crowdsale 2023 is about to begin",
-      image: `/assets/images/covers/cover_3.jpg`
-    },
-  ]
+const updatesList = [
+  {
+    id: '1',
+    description: 'New Real Estate Collection Listed',
+    image: `/assets/images/covers/cover_19.jpg`,
+  },
+  {
+    id: '2',
+    description: 'Sepolia Crowdsale has ended',
+    image: `/assets/images/covers/cover_22.jpg`,
+  },
+  {
+    id: '3',
+    description: 'Genesis Crowdsale 2023 is about to begin',
+    image: `/assets/images/covers/cover_3.jpg`,
+  },
+];
 
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
   const theme = useTheme();
-  console.log(faker.date.recent())
-    console.log(updatesList)
-
+  console.log(faker.date.recent());
+  console.log(updatesList);
 
   return (
     <>
@@ -53,7 +51,7 @@ export default function DashboardAppPage() {
         </Typography>
 
         <Grid container spacing={3}>
-           <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="New NFTs Added" total={70} color="info" icon={'logos:ethereum'} />
           </Grid>
 
@@ -66,7 +64,7 @@ export default function DashboardAppPage() {
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="My Investments(eth)" total={2.20} icon={'logos:ethereum-color'} />
+            <AppWidgetSummary title="My Investments(eth)" total={2.2} icon={'logos:ethereum-color'} />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
@@ -92,7 +90,7 @@ export default function DashboardAppPage() {
                   type: 'line',
                   fill: 'solid',
                   data: [30, 25, 36, 30, 45, 35, 33, 33, 30, 28, 20],
-                  color: theme.palette.success.main
+                  color: theme.palette.success.main,
                 },
                 {
                   name: 'Real Estate',
@@ -106,10 +104,9 @@ export default function DashboardAppPage() {
                   type: 'line',
                   fill: 'solid',
                   data: [44, 55, 41, 67, 45, 43, 47, 41, 56, 53, 54],
-                  color: theme.palette.error.main
+                  color: theme.palette.error.main,
                 },
               ]}
-              
             />
           </Grid>
 
@@ -120,13 +117,8 @@ export default function DashboardAppPage() {
                 { label: 'Automobiles', value: 3439 },
                 { label: 'Real Estate', value: 27500 },
                 { label: 'Traditional Art', value: 3439 },
-
               ]}
-              chartColors={[
-                theme.palette.success.main,
-                theme.palette.primary.main,
-                theme.palette.error.main,
-              ]}
+              chartColors={[theme.palette.success.main, theme.palette.primary.main, theme.palette.error.main]}
             />
           </Grid>
 
@@ -149,13 +141,13 @@ export default function DashboardAppPage() {
                 {
                   name: 'Twitter',
                   icon: <Iconify icon={'eva:twitter-fill'} color="#1C9CEA" width={32} />,
-                  value: "3.03k"
+                  value: '3.03k',
                 },
                 {
-                  name: "Reddit",
+                  name: 'Reddit',
                   icon: <Iconify icon={'logos:reddit-icon'} color="#FF4500" width={32} />,
-                  value: "1.76k"
-                }
+                  value: '1.76k',
+                },
               ]}
             />
           </Grid>
