@@ -1,13 +1,8 @@
-# Sample Hardhat Project
+# Lead
+## A web3 platform for businesses to tokenize and fractionalize assets.
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
 
-Try running some of the following tasks:
 
-```shell
-npx hardhat help
-npx hardhat test
-GAS_REPORT=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+
+https://user-images.githubusercontent.com/50284068/202834846-aaad1ecd-aec8-486f-a3ff-0899fae23f7e.mp4
+
